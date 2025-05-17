@@ -17,7 +17,7 @@ struct AddView: View {
     @State var textFieldText_2: String = ""
     @State var selectedLanguage: String = "🇪🇸"
     
-    let languages = ["🇪🇸", "🇩🇪", "🇮🇹", "🇫🇷"]
+    let languages = ["🇪🇸", "🇩🇪", "🇮🇹", "🇫🇷", "🇷🇺", "🇯🇵"]
         
     @State var showAlert: Bool = false
     @State var alertTitle: String = ""
