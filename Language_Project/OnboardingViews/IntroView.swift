@@ -14,7 +14,7 @@ struct IntroView: View {
     var body: some View {
         ZStack {
             RadialGradient(
-                gradient: Gradient(colors: [Color.purple, Color.black]),
+                gradient: Gradient(colors: [Color.purple.opacity(0.5),Color(UIColor.systemBackground)]),
                 center: .topLeading,
                 startRadius: 5,
                 endRadius: UIScreen.main.bounds.height)

@@ -12,12 +12,15 @@ struct VocabularyModel: Identifiable, Codable {
     let language: String
     let word: String
     let translation: String
+    //new line for a variable
+    var known: Bool
     
-    init(id: String=UUID().uuidString, language: String, word: String, translation: String) {
+    init(id: String=UUID().uuidString, language: String, word: String, translation: String, known: Bool = false) {
         self.id = id
         self.language = language
         self.word = word
         self.translation = translation
+        self.known = known
     }
     
     func updateCompletion() -> VocabularyModel {

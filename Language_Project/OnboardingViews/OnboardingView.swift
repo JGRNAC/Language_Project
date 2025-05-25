@@ -44,6 +44,13 @@ struct OnboardingView: View {
     
     var body: some View {
         ZStack {
+            RadialGradient(
+                gradient: Gradient(colors: [Color.purple.opacity(0.5), Color(UIColor.systemBackground)]),
+                center: .topLeading,
+                startRadius: 5,
+                endRadius: UIScreen.main.bounds.height
+            )
+            .ignoresSafeArea()
             //content
             ZStack {
                 switch onboardingState {
@@ -89,7 +96,8 @@ extension OnboardingView {
     private var bottomButton: some View {
         Text(onboardingState == 0 ? "SIGN UP": onboardingState == 3 ? "FINISH" : "NEXT")
             .font(.headline)
-            .foregroundColor(Color(red: 0, green: 0.328, blue: 0.574))
+            //.foregroundColor(Color(red: 0, green: 0.328, blue: 0.574))
+            .foregroundColor(Color.primary)
             .frame(height: 55)
             .frame(maxWidth: .infinity)
             .background(Color.white)
@@ -103,25 +111,28 @@ extension OnboardingView {
     private var welcomeSection: some View {
         VStack(spacing: 40) {
             Spacer()
-            Image(systemName: "book.fill")
+            Image(systemName: "text.book.closed.fill")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 200, height: 200)
-                .foregroundColor(.white)
+                .frame(width: 160, height: 160)
+                .padding()
+                .background(Color.purple.opacity(0.1))
+                .clipShape(Circle())
+                .foregroundColor(Color.primary)
             Text("Practice your vocabulary.")
                 .font(.largeTitle)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(Color.primary)
                 .overlay(
                     Capsule(style: .continuous)
                         .frame(height: 3)
                         .offset(y: 5)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.primary)
                     , alignment: .bottom
                 )
                 Text("This is the a great app for practicing your vocabulary in a fun and simple.")
                     .fontWeight(.medium)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.primary)
                 Spacer()
                 Spacer()
         }
@@ -136,7 +147,7 @@ extension OnboardingView {
             Text("What's your name?")
                 .font(.largeTitle)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             TextField("Your name here ...", text: $name)
                 .font(.headline)
                 .frame(height: 55)
