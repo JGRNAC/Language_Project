@@ -10,8 +10,6 @@ import SwiftUI
 struct MainTabView: View {
     
     @EnvironmentObject var vocabularyViewModel: VocabularyViewModel
-    @State private var showDeleteAlert = false
-    @State private var indexSetToDelete: IndexSet?
     let softPurple = Color(hue: 0.75, saturation: 0.4, brightness: 0.9)
     
     var body: some View {
@@ -30,32 +28,28 @@ struct MainTabView: View {
                         NoVocabularyView()
                             .transition(.opacity)
                     } else {
-//                        List {
                         ScrollView {
                             LazyVStack(spacing: 20) {
-//                                ForEach(vocabularyViewModel.items) { vocabulary in
-//                                    //                                NavigationLink(destination: AddView(editingVocabulary: vocabulary)) {
-//                                    //                                    CardView(vocabulary: vocabulary)
-//                                    //                                }
-//                                    CardView(vocabulary: vocabulary)
-//                                        .onTapGesture {
-//                                            var updated = vocabulary
-//                                            updated.known.toggle()
-//                                            vocabularyViewModel.updateVocabulary(vocabulary: updated)
-//                                        }
-//                                }
-                                
-                                ForEach(vocabularyViewModel.items) { vocabulary in
-                                    NavigationLink(destination: AddView(editingVocabulary: vocabulary)) {
-                                        CardView(vocabulary: vocabulary)
+                                ForEach(Array(vocabularyViewModel.items.enumerated()), id: \.element.id) { index, vocabulary in
+                                    HStack(alignment: .center) {
+                                        NavigationLink(destination: AddView(editingVocabulary: vocabulary)) {
+                                            CardView(vocabulary: vocabulary)
+                                                .frame(maxWidth: .infinity)
+                                        }
+
+                                        Button(action: {
+                                            vocabularyViewModel.deleteVocabulary(at: IndexSet(integer: index))
+                                        }) {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.white)
+                                                .padding(10)
+                                                .background(Color.red)
+                                                .clipShape(Circle())
+                                                .shadow(radius: 4)
+                                        }
                                     }
+                                    .padding(.horizontal)
                                 }
-                                .onDelete { indexSet in
-                                    indexSetToDelete = indexSet
-                                    showDeleteAlert = true
-                                }
-                                .onMove(perform: vocabularyViewModel.moveVocabulary)
-                                
                             }
                         }
                         .scrollContentBackground(.hidden)
@@ -67,21 +61,8 @@ struct MainTabView: View {
                 }
                 .navigationTitle("Language List")
                 .navigationBarItems(
-                    leading: EditButton(),
                     trailing: NavigationLink("Add", destination: AddView())
                 )
-                .alert(isPresented: $showDeleteAlert) {
-                    Alert(
-                        title: Text("Delete Word"),
-                        message: Text("Are you sure you want to delete this word?"),
-                        primaryButton: .destructive(Text("Delete")) {
-                            if let indexSet = indexSetToDelete {
-                                vocabularyViewModel.deleteVocabulary(at: indexSet)
-                            }
-                        },
-                        secondaryButton: .cancel()
-                    )
-                }
             }
             .tabItem {
                 Image(systemName: "house.fill")
@@ -99,11 +80,15 @@ struct MainTabView: View {
                     Image(systemName: "person.fill")
                     Text("Profile")
                 }
+            QuizGameView()
+                .tabItem {
+                    Image(systemName: "lightbulb.fill")
+                    Text("Quiz")
+                }
         }
     }
 }
-    
-    
+
     
     
 //    @EnvironmentObject var vocabularyViewModel: VocabularyViewModel

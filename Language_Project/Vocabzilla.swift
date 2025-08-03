@@ -16,7 +16,7 @@ struct Vocabzilla: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                MainTabView()
+                IntroView()
             }
             .environmentObject(vocabularyViewModel)
         }
